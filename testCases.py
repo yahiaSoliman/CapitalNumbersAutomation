@@ -4,7 +4,7 @@ import string
 import time
 
 import mailslurp_client
-from selenium.webdriver import ActionChains
+from selenium.webdriver import ActionChains, Keys
 from selenium.webdriver.common.by import By
 from base_class import BaseClass
 
@@ -75,3 +75,26 @@ class TestStoreSettings(BaseClass):
         self.driver.find_element(By.XPATH, "//ul[@class='MuiList-root MuiList-padding css-1ontqvh']")
         self.driver.find_element(By.XPATH, "//span[text()='See All Data ']").click()
         self.assertTrue(self.driver.find_element(By.XPATH, "//div[@role='presentation' and text()='Name']"))
+
+    def test_search_filters(self):
+        self.driver.get("https://oldtest.bumblebeeeee.com/login")
+        self.driver.find_element(By.NAME, "username").send_keys("tester")
+        self.driver.find_element(By.NAME, "password").send_keys("Raqz3Ts0D2fN")
+        self.driver.find_element(By.XPATH, "//button[@type='submit']").click()
+        self.assertTrue(self.driver.find_element(By.XPATH, "//div[text()='New Workspace']").is_displayed())
+        self.driver.find_element(By.XPATH, "//input[@placeholder='Search']").send_keys("test")  # insert search query
+        self.driver.find_element(By.XPATH, "//ul[@class='MuiList-root MuiList-padding css-1ontqvh']")
+        self.driver.find_element(By.XPATH, "//span[text()='See All Data ']").click()
+        self.driver.find_element(By.ID, "tasks-advanced-search").click()  # click on filter icon
+        self.driver.find_element(By.XPATH, "//input[@placeholder='Type']").click()
+        self.driver.find_element(By.XPATH, "//div[@aria-label='Items']")  # wait for list to be displayed
+        self.driver.find_element(By.XPATH, "//input[@placeholder='Type']").send_keys("item")
+        self.driver.find_element(By.XPATH, "//input[@placeholder='Type']").send_keys(Keys.ENTER)
+        self.driver.find_element(By.XPATH, "//span[text()='Search']").click()
+        time.sleep(5) # wait for list to be filtered
+        list_of_items_types = self.driver.find_elements(By.XPATH, "//tbody/tr/td[8]")
+        i = 1
+        while i < len(list_of_items_types):
+            actual_value = list_of_items_types[i].text
+            self.assertTrue('Item', actual_value)
+            i = i + 1
