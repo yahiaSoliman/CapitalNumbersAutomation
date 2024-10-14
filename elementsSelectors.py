@@ -21,6 +21,7 @@ class Selectors:
     side_menu_table_icon = (By.XPATH, "//ul[@class='MuiList-root MuiList-padding css-inu1m2']/li[2]")
     search_input_text = (By.XPATH, "//input[@placeholder='Search']")
     search_result_item = (By.XPATH, "//div[@class='ndt']")
+    table_draggable_area = (By.XPATH, "//div[@class='dragWrapper']")
     table_first_row = (By.XPATH, "//table/tbody/tr")
     search_result_summary_items_list_container = (By.XPATH, "//ul[@class='MuiList-root MuiList-padding css-1ontqvh']")
     see_all_search_results_data_button = (By.XPATH, "//span[text()='See All Data ']")

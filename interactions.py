@@ -1,7 +1,7 @@
 import time
 
 from selenium.webdriver import ActionChains, Keys
-
+from seletools.actions import drag_and_drop
 from elementsSelectors import Selectors
 
 
@@ -20,8 +20,8 @@ class Interactions:
         driver.find_element(*Selectors.login_button).click()
 
     @staticmethod
-    def is_new_workspace_button_displayed(driver):
-        return driver.find_element(*Selectors.new_workspace_button).is_displayed()
+    def is_search_input_text_displayed(driver):
+        return driver.find_element(*Selectors.search_input_text).is_displayed()
 
     @staticmethod
     def click_create_new_account_button(driver):
@@ -73,17 +73,21 @@ class Interactions:
 
     @staticmethod
     def click_side_menu_table_icon(driver):
+        time.sleep(7)
         driver.find_element(*Selectors.side_menu_table_icon).click()
 
     @staticmethod
     def insert_search_query(driver, search_query):
+        time.sleep(3)
         driver.find_element(*Selectors.search_input_text).send_keys(search_query)
 
     @staticmethod
     def drag_drop_search_result_first_item(driver):
-        action_chains = ActionChains(driver)
-        action_chains.click_and_hold(driver.find_element(*Selectors.search_result_item)).click_and_hold(driver.find_element(*Selectors.search_result_item)).pause(
-            1).release().perform()
+        time.sleep(5)
+        source = driver.find_element(*Selectors.search_result_item)
+        target = driver.find_element(*Selectors.table_draggable_area)
+        drag_and_drop(driver, source, target)
+        time.sleep(5)
 
     @staticmethod
     def is_table_first_raw_displayed(driver):
@@ -131,13 +135,3 @@ class Interactions:
     @staticmethod
     def get_list_of_table_items_types(driver):
         return driver.find_elements(*Selectors.table_item_types)
-
-
-
-
-
-
-
-
-
-

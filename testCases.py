@@ -1,3 +1,5 @@
+import time
+
 from baseClass import BaseClass
 from interactions import Interactions
 from testData import TestData
@@ -5,14 +7,15 @@ from testData import TestData
 
 class TestStoreSettings(BaseClass):
 
-    def test_login(self):
+    def test_a_login(self):
         self.driver.get(TestData.url)
         Interactions.insert_login_username(self.driver, TestData.username)
         Interactions.insert_login_password(self.driver, TestData.password)
         Interactions.click_login(self.driver)
-        self.assertTrue(Interactions.is_new_workspace_button_displayed(self.driver))
+        self.assertTrue(Interactions.is_search_input_text_displayed(self.driver))
+        time.sleep(5)
 
-    def test_register(self):
+    def test_b_register(self):
         inbox, wait_for_controller = TestData.create_new_email_inbox()
         self.driver.get(TestData.url)  # open website
         Interactions.click_create_new_account_button(self.driver)
@@ -29,36 +32,39 @@ class TestStoreSettings(BaseClass):
         Interactions.insert_domain(self.driver, domain)
         Interactions.find_domain_confirmation_icon(self.driver)
         Interactions.click_create_tenant(self.driver)
-        self.assertTrue(Interactions.is_demo_dashboard_title_displayed(self.driver))
+        self.assertTrue(Interactions.is_search_input_text_displayed(self.driver))
+        time.sleep(5)
 
-    def test_search_table_drag_drop(self):
+    def test_c_search_table_drag_drop(self):
         self.driver.get(TestData.url)
         Interactions.insert_login_username(self.driver, TestData.username)
         Interactions.insert_login_password(self.driver, TestData.password)
         Interactions.click_login(self.driver)
-        self.assertTrue(Interactions.is_new_workspace_button_displayed(self.driver))
+        self.assertTrue(Interactions.is_search_input_text_displayed(self.driver))
         Interactions.click_side_menu_table_icon(self.driver)
         Interactions.insert_search_query(self.driver, TestData.search_query)
         Interactions.drag_drop_search_result_first_item(self.driver)
         self.assertTrue(Interactions.is_table_first_raw_displayed(self.driver))
+        time.sleep(5)
 
-    def test_view_all_search_data(self):
+    def test_d_view_all_search_data(self):
         self.driver.get(TestData.url)
         Interactions.insert_login_username(self.driver, TestData.username)
         Interactions.insert_login_password(self.driver, TestData.password)
         Interactions.click_login(self.driver)
-        self.assertTrue(Interactions.is_new_workspace_button_displayed(self.driver))
+        self.assertTrue(Interactions.is_search_input_text_displayed(self.driver))
         Interactions.insert_search_query(self.driver, TestData.search_query)
         Interactions.find_search_result_summary_container(self.driver)
         Interactions.click_see_all_data_button(self.driver)
         self.assertTrue(Interactions.is_table_column_name_title_displayed(self.driver))
+        time.sleep(5)
 
-    def test_search_filters(self):
+    def test_e_search_filters(self):
         self.driver.get(TestData.url)
         Interactions.insert_login_username(self.driver, TestData.username)
         Interactions.insert_login_password(self.driver, TestData.password)
         Interactions.click_login(self.driver)
-        self.assertTrue(Interactions.is_new_workspace_button_displayed(self.driver))
+        self.assertTrue(Interactions.is_search_input_text_displayed(self.driver))
         Interactions.insert_search_query(self.driver, TestData.search_query)
         Interactions.find_search_result_summary_container(self.driver)
         Interactions.click_see_all_data_button(self.driver)
@@ -74,3 +80,5 @@ class TestStoreSettings(BaseClass):
             actual_value = list_of_items_types[i].text
             self.assertEqual(TestData.type_filter_value, actual_value.lower())
             i = i + 1
+
+        time.sleep(5)
